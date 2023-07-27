@@ -1,0 +1,1 @@
+ kk%2==0 ? player_turn=2:player_turn=1;
