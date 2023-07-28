@@ -8,7 +8,7 @@ struct Move
 	int row, col;
 };
 
-char player = 'x', opponent = 'o';
+char player = 'x', computer_ai = 'o';
 
 // This function returns true if there are moves
 // remaining on the board. It returns false if
@@ -17,7 +17,7 @@ bool isMovesLeft(char board[3][3])
 {
 	for (int i = 0; i<3; i++)
 		for (int j = 0; j<3; j++)
-			if (board[i][j]=='_')
+			if (board[i][j]!='x' &&  board[i][j]!='o')
 				return true;
 	return false;
 }
@@ -34,7 +34,7 @@ int evaluate(char b[3][3])
 		{
 			if (b[row][0]==player)
 				return +10;
-			else if (b[row][0]==opponent)
+			else if (b[row][0]==computer_ai)
 				return -10;
 		}
 	}
@@ -48,7 +48,7 @@ int evaluate(char b[3][3])
 			if (b[0][col]==player)
 				return +10;
 
-			else if (b[0][col]==opponent)
+			else if (b[0][col]==computer_ai)
 				return -10;
 		}
 	}
@@ -58,7 +58,7 @@ int evaluate(char b[3][3])
 	{
 		if (b[0][0]==player)
 			return +10;
-		else if (b[0][0]==opponent)
+		else if (b[0][0]==computer_ai)
 			return -10;
 	}
 
@@ -66,7 +66,7 @@ int evaluate(char b[3][3])
 	{
 		if (b[0][2]==player)
 			return +10;
-		else if (b[0][2]==opponent)
+		else if (b[0][2]==computer_ai)
 			return -10;
 	}
 
@@ -107,9 +107,10 @@ int minimax(char board[3][3], int depth, bool isMax)
 			for (int j = 0; j<3; j++)
 			{
 				// Check if cell is empty
-				if (board[i][j]=='_')
+				if (board[i][j]!='x' &&  board[i][j]!='o')
 				{
 					// Make the move
+					int noo=board[i][j];
 					board[i][j] = player;
 
 					// Call minimax recursively and choose
@@ -118,7 +119,7 @@ int minimax(char board[3][3], int depth, bool isMax)
 						minimax(board, depth+1, !isMax) );
 
 					// Undo the move
-					board[i][j] = '_';
+					board[i][j] =noo;
 				}
 			}
 		}
@@ -136,10 +137,11 @@ int minimax(char board[3][3], int depth, bool isMax)
 			for (int j = 0; j<3; j++)
 			{
 				// Check if cell is empty
-				if (board[i][j]=='_')
+				if (board[i][j]!='x' &&  board[i][j]!='o')
 				{
 					// Make the move
-					board[i][j] = opponent;
+					int noo=board[i][j];
+					board[i][j] = computer_ai;
 
 					// Call minimax recursively and choose
 					// the minimum value
@@ -147,7 +149,7 @@ int minimax(char board[3][3], int depth, bool isMax)
 						minimax(board, depth+1, !isMax));
 
 					// Undo the move
-					board[i][j] = '_';
+					board[i][j] = noo;
 				}
 			}
 		}
@@ -171,17 +173,18 @@ Move findBestMove(char board[3][3])
 		for (int j = 0; j<3; j++)
 		{
 			// Check if cell is empty
-			if (board[i][j]=='_')
+			if (board[i][j]!='x' &&  board[i][j]!='o')
 			{
 				// Make the move
+				int noo=board[i][j];
 				board[i][j] = player;
 
 				// compute evaluation function for this
 				// move.
-				int moveVal = minimax(board, 0, false);
+				int moveVal = minimax(board, 0, true);
 
 				// Undo the move
-				board[i][j] = '_';
+				board[i][j] = noo;
 
 				// If the value of the current move is
 				// more than the best value, then update
@@ -202,14 +205,19 @@ Move findBestMove(char board[3][3])
 	return bestMove;
 }
 
+// uncomment this main funtion  if want to run this code only
+// else comment it and use it in your code
 // Driver code
+
+
+
 int main()
 {
 	char board[3][3] =
 	{
-		{ 'x', 'o', 'x' },
-		{ 'o', 'o', 'x' },
-		{ 'o', 'x', 'o' }
+		{ 'o', 'x', 'o' },
+		{ 'o', 'x', '_' },
+		{ 'x', 'o', '_' }
 	};
 
 	Move bestMove = findBestMove(board);

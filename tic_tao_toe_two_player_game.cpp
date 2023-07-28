@@ -1,9 +1,24 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-void Todisplay(string d[3][3])
-{
+// for compuer vs playe
+extern bool isMovesLeft(char d[3][3]);
+extern int evaluate(char d[3][3]);
+extern int minimax(char d[3][3], int depth, bool isMax);
 
+struct Move
+{
+	int row, col;
+};
+
+extern Move findBestMove(char d[3][3]);
+// char player = 'x', computer_ai = 'o';
+
+// end computer vs player
+void Todisplay(char d[3][3])
+{
+ 
+    // funtion to display the matrix
     for (int i = 0; i < 3; i++)
     {
 
@@ -37,8 +52,9 @@ void Todisplay(string d[3][3])
 }
 
 /// to check win or lose
-bool win_or_lose(string d[3][3])
+bool win_or_lose(char d[3][3])
 {
+    // function to check win or lose
     bool check = false;
 
     // check horizontal
@@ -78,15 +94,16 @@ bool win_or_lose(string d[3][3])
 
     return check;
 }
-///
 
-void display_player(string d[3][3])
+
+void display_player(char d[3][3])
 {
-    int kk = 8;
+    // function to play between two player
+    int kk = 10;
     int player_turn = 1;
     while (kk--)
     {
-        /* code */
+        
 
         int no;
         char op;
@@ -108,10 +125,10 @@ void display_player(string d[3][3])
              << "Enter the number where " << op << " to be placed :";
         char get;
         cin >> get;
-        string compare;
+        char compare;
         compare = get;
 
-        string select;
+        char select;
 
         select = op;
 
@@ -156,7 +173,103 @@ void display_player(string d[3][3])
     }
 }
 
-void player_vs_player(string d[3][3])
+
+void player_ai(char d[3][3]){
+    // function to play with computer
+
+   // default i am taking this things  char player = 'x', computer_ai = 'o';
+   // develop some option further
+   // for now 1 time player will play and then computer will play
+   // develop it in future
+
+   int kk = 10;
+    int player_turn;
+    while (kk--)
+    {
+        player_turn=kk%2;
+
+        /* code */
+    if(player_turn==1){
+        // player turn
+char op,compare;
+            op='x';// player human
+        cout << endl
+             << "Enter the number where " << op << " to be placed :";
+        cin>>compare;
+
+        char select;
+
+        select = op;
+
+        // to put in matrix
+
+        for (size_t i = 0; i < 3; i++)
+        {
+            /* code */
+            for (int j = 0; j < 3; j++)
+            {
+                if (compare == d[i][j])
+                {
+                    d[i][j] = select;
+                }
+            }
+        }
+    }else{
+        // computer turn
+
+	Move bestMove = findBestMove(d);
+    d[bestMove.row][bestMove.col]='o';
+
+
+
+
+    }
+    
+        // check----------------win or los --------
+        if (kk == 0)
+        {
+            cout << endl
+                 << "------------- DRAW----------------" << endl;
+            Todisplay(d);
+            cout << endl
+                 << " --NO ONE WIN THE GAME--" << endl;
+            break;
+        }
+        bool check = win_or_lose(d);
+        if (check == true)
+        {  
+             if(player_turn==1){
+                // if player wins
+              cout << endl
+                 << " THE WINNER OF THE GAME IS PLAYER  :" << player_turn << endl;
+            Todisplay(d);
+            cout << endl
+                 << "/-/-/-/-/-/-/-/-/-/-/ YOU Beated Computer Ai " << player_turn << " -/-/-/-/-/-/-/-/-/-/" << endl;
+            cout << endl
+                 << "----------------The end------------------------" << endl;
+
+
+
+             }else{
+                // if computer wins
+                cout << endl
+                  << player_turn<< " THE WINNER OF THE GAME IS Computer  :" << endl;
+            Todisplay(d);
+            cout << endl
+                 << "/-/-/-/-/-/-/-/-/-/-/ Computer Ai Beated You " << player_turn << " -/-/-/-/-/-/-/-/-/-/" << endl;
+            cout << endl
+                    << "----------------The end------------------------" << endl;
+             }
+         
+            break;
+        }
+        ///
+
+        Todisplay(d);
+    } 
+
+}
+void player_vs_player(char d[3][3])
 {
 
     cout << endl;
@@ -164,12 +277,32 @@ void player_vs_player(string d[3][3])
          << " player 2 : o" << endl
          << endl;
 
-    Todisplay(d);
+Todisplay(d);   
 
     // to display in loop player
 
     display_player(d);
 }
+
+void player_vs_computer(char d[3][3]){
+
+
+    cout << endl;
+    cout << " player 1 : x" << endl
+         << " Computer : o" << endl
+         << endl;
+
+    Todisplay(d);
+
+    // to display in loop player
+
+    player_ai(d);
+
+
+}
+
+
+
 int main()
 {
 
@@ -177,13 +310,14 @@ int main()
 again_loop:
 
     int no = 1;
-    string d[3][3];
+    char d[3][3];
     for (int i = 0; i < 3; i++)
     {
         /* code */
         for (int j = 0; j < 3; j++)
         {
-            d[i][j] = to_string(no++);
+            d[i][j] = '0' + no;
+            no++;
         }
     }
     int normal;
@@ -196,8 +330,11 @@ again_loop:
     }
     else
     {
+        player_vs_computer(d);
 
         // comp vs player here
+
+        
     }
 
     // to play again
