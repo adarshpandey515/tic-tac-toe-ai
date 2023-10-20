@@ -15,7 +15,7 @@ step 5 : end!
 2.user can choose the size of board
 3.user can choose to play first or second
 4.user can choose the difficulty level
-![Alt text](ttt-swing/image1.jpg)
+
 
 [image1](https://github.com/adarshpandey515/tic-tac-toe-ai/assets/124281012/cd7c7df8-8f1a-4c3d-a219-ed9e1f5f025f)
 
