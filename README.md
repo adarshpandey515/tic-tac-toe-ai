@@ -22,8 +22,14 @@ step 5 : end!
 
 // Exceptional  Features 
 1.undo and redo Operation
+
+
 2.user can choose the size of board
+
+
 3.user can choose to play first or second
+
+
 4.user can choose the difficulty level
 
 
